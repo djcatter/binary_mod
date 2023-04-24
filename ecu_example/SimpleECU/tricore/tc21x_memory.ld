@@ -32,7 +32,7 @@
  
 OUTPUT_FORMAT("elf32-tricore")
 OUTPUT_ARCH(tricore)
-ENTRY(_crt0_reset)
+
 
 /* ================================================================================================
  * TC2XX MEMORY REGIONS
@@ -68,8 +68,4 @@ MEMORY
 INT_FLASH_MEMORY_BASE = ORIGIN(int_flash0);
 INT_FLASH_MEMORY_SIZE = 512K;
 
-/* ================================================================================================
- * INCLUDE OF APPLICATION LINKER FILE
- * ==============================================================================================*/
- 
-/*INCLUDE tc21x_bsp_example.ld*/
+

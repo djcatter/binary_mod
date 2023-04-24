@@ -1,38 +1,13 @@
 /**************************************************************************************************
  * FILE: tc21x_memory.ld
  *
- * UC ARCHITECTURE:
- *
- *    TC2xx
- *
- * UC FAMILY:
- *
- *    TC21x
- *
  * DESCRIPTION:
  *
- *    uC family memory region definition file.
- *    Not all available memory regions are defined, only those used in BSP example.
- *    It includes the application linker files locating sections to memory regions at the end.
- *
- * FILE HISTORY:
- *
- *    V1  03.2019  
- *    - Update to PXROS-HR v7.3.0.
- *
- *    V2  03.2021  JS
- *    - Update to PXROS-HR v8.2.0
- *
- **************************************************************************************************
- * Copyright (C) 2015-2021 HighTec EDV-Systeme GmbH.  All rights reserved.
- * This is proprietary software. Any use of the software requires a written
- * license agreement with HighTec EDV-Systeme GmbH. Please contact for
- * detailed license information: info@hightec-rt.com.
+ *    tc21x_uC family memory region definition file.
  *************************************************************************************************/
  
 OUTPUT_FORMAT("elf32-tricore")
 OUTPUT_ARCH(tricore)
-ENTRY(_crt0_reset)
 
 /* ================================================================================================
  * TC2XX MEMORY REGIONS
@@ -68,8 +43,3 @@ MEMORY
 INT_FLASH_MEMORY_BASE = ORIGIN(int_flash0);
 INT_FLASH_MEMORY_SIZE = 512K;
 
-/* ================================================================================================
- * INCLUDE OF APPLICATION LINKER FILE
- * ==============================================================================================*/
- 
-/*INCLUDE tc21x_bsp_example.ld*/
