@@ -2,6 +2,7 @@ import idautils
 import idc
 import ida_idp
 
+
 def find_function_calls(func_find_name, my_func_name):
     """
     Find all function calls to `func_find_name` within the function with the given name.
@@ -28,13 +29,13 @@ def find_function_calls(func_find_name, my_func_name):
     return calls
 
 
-if __name__ == "__main__":  
-  # Example usage: find all calls to function "printf" within function "my_func"
-  try:
-      printf_calls = find_function_calls("printf", "my_func")
-  except ValueError as e:
-      print(f"Error: {e}")
-  else:
-      print("Found", len(printf_calls), "calls to printf within my_func:")
-      for call_ea in printf_calls:
-          print(hex(call_ea))
+if __name__ == "__main__":
+    # Example usage: find all calls to function "printf" within function "my_func"
+    try:
+        printf_calls = find_function_calls("printf", "my_func")
+    except ValueError as e:
+        print(f"Error: {e}")
+    else:
+        print("Found", len(printf_calls), "calls to printf within my_func:")
+        for call_ea in printf_calls:
+            print(hex(call_ea))

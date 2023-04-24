@@ -7,13 +7,11 @@ import idaapi
 def remove_patch_helper(ea, fpos, org_val, patch_val):
     ida_bytes.revert_byte(ea)
     idaapi.del_named_item(ea)
-    return 0;
+    return 0
 
 
 def remove_patch(start_ea, end_ea):
     ida_bytes.visit_patched_bytes(start_ea, end_ea, remove_patch_helper)
-
-
 
 
 def import_elf(filename, code_section_names, data_section_names):
@@ -47,15 +45,13 @@ def import_elf(filename, code_section_names, data_section_names):
         symbol_tables = elf.get_section_by_name('.symtab')
         if symbol_tables:
             for symbol in symbol_tables.iter_symbols():
-                # TODO check to see if we are in the sections that we want. 
+                # TODO check to see if we are in the sections that we want.
                 symbol_type = symbol.entry.st_info.type
                 if symbol_type in ('STT_FUNC', 'STT_OBJECT'):
                     symbol_address = symbol.entry.st_value
                     symbol_name = symbol.name
                     idc.set_name(symbol_address, symbol_name)
                     # TODO import data like functions etc
-
-        
 
         else:
             raise ValueError(f"Symbol table not found in ELF file")
