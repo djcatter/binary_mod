@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5)
 # set(CMAKE_CXX_COMPILER_FORCED TRUE)
 set(CMAKE_SYSTEM_NAME Generic)
 
-project(simple_ecu C)
+project(simple_ecu.elf C)
 
 if(NOT "${BUILD_VERSION}")
   set(BUILD_VERSION SimpleEcu_1.3)
@@ -34,7 +34,7 @@ set(SOURCES
 
 
 # Define the executable and its sources
-add_executable(simple_ecu ${SOURCES})
+add_executable(simple_ecu.elf ${SOURCES})
 
 
 string(FIND ${CMAKE_C_COMPILER} "tricore" tricore_found)
@@ -48,29 +48,25 @@ if(tricore_found GREATER 0)
     else()
         set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -meabi -O3")
     endif()
-    target_link_libraries(simple_ecu m -nocrt0 -nostartfiles -T${CMAKE_SOURCE_DIR}/tricore/tc21x_memory.ld -T${CMAKE_SOURCE_DIR}/tricore/tc21x_bsp_example.ld)
+    target_link_libraries(simple_ecu.elf m -nocrt0 -nostartfiles -T${CMAKE_SOURCE_DIR}/tricore/tc21x_memory.ld -T${CMAKE_SOURCE_DIR}/tricore/tc21x_simple_ecu.ld )
     message("tricore_found setting up with default linker")
     
 elseif(powerpc_found GREATER 0)
     # Link the necessary libraries
     set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -meabi")
-    target_link_libraries(simple_ecu m )
+    target_link_libraries(simple_ecu.elf m )
     message("powerpc_found setting up with default linker")
 
 else()
     # Link the necessary libraries
     set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -meabi")
-    target_link_libraries(simple_ecu m )
+    target_link_libraries(simple_ecu.elf m )
 
 
 endif()
 
 # Add the include directories
-target_include_directories(simple_ecu PRIVATE "${PROJECT_SOURCE_DIR}/include")
-
-
-
-
+target_include_directories(simple_ecu.elf PRIVATE "${PROJECT_SOURCE_DIR}/include")
 
 # Add the test files
 set(TEST_SOURCES
