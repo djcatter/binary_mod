@@ -6,7 +6,12 @@ import idaapi
 
 def remove_patch_helper(ea, fpos, org_val, patch_val):
     ida_bytes.revert_byte(ea)
-    idaapi.del_named_item(ea)
+    idaapi.del_global_name(ea)
+    idaapi.del_local_name(ea)
+    # TODO we will need to only do this for areas 
+    # we wrote ELF data in otherwise it makes a mess
+    # i.e. not we we patch a jump for example
+    # ida_bytes.del_items(ea) 
     return 0
 
 
