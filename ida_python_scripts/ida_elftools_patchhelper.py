@@ -30,7 +30,7 @@ def import_elf(filename, code_section_names, data_section_names):
                 code_contents = code_section.data()
                 ida_bytes.patch_bytes(start_address, code_contents)
             else:
-                print(f"CODE section '{name}' not found")
+                raise ValueError(f"CODE section '{name}' not found")
 
         # Import the DATA sections
         for name in data_section_names:
@@ -41,7 +41,7 @@ def import_elf(filename, code_section_names, data_section_names):
                 data_contents = data_section.data()
                 ida_bytes.patch_bytes(start_address, data_contents)
             else:
-                print(f"DATA section '{name}' not found")
+                raise ValueError(f"DATA section '{name}' not found")
 
         # Import symbols
         symbol_tables = elf.get_section_by_name('.symtab')
@@ -58,4 +58,4 @@ def import_elf(filename, code_section_names, data_section_names):
         
 
         else:
-            print("Symbol table not found in ELF file")
+            raise ValueError(f"Symbol table not found in ELF file")
