@@ -15,7 +15,8 @@ def find_function_calls(func_find_name, my_func_name):
     calls = []
     # Get a list of all instructions in the function
     func_instructions = list(idautils.FuncItems(my_func_ea))
-    # TODO we are walking the code but really want to walk the code flow to get all arguments for verification
+    # TODO we are walking the code but really want to walk the code flow to
+    #     # get all arguments for verification
     for instruction_ea in func_instructions:
         # Check if the current instruction is a call instruction
         if ida_idp.is_call_insn(instruction_ea):
@@ -24,7 +25,8 @@ def find_function_calls(func_find_name, my_func_name):
             # Get the name of the target function
             target_name = idc.get_name(target_ea)
             if target_name == func_find_name:
-                # If the target function's name matches the given name, add the call instruction's address to the list
+                # If the target function's name matches the given name, add the
+                # call instruction's address to the list
                 calls.append(instruction_ea)
     return calls
 

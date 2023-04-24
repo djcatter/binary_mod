@@ -4,14 +4,14 @@ import idc
 import idaapi
 
 
-def remove_patch_helper(ea, fpos, org_val, patch_val):
+def remove_patch_helper(ea):
     ida_bytes.revert_byte(ea)
     idaapi.del_global_name(ea)
     idaapi.del_local_name(ea)
-    # TODO we will need to only do this for areas 
+    # TODO we will need to only do this for areas
     # we wrote ELF data in otherwise it makes a mess
     # i.e. not we we patch a jump for example
-    # ida_bytes.del_items(ea) 
+    # ida_bytes.del_items(ea)
     return 0
 
 
@@ -21,15 +21,15 @@ def remove_patch(start_ea, end_ea):
 
 def import_elf(filename, code_section_names, data_section_names):
     # Open the ELF file
-    with open(filename, 'rb') as f:
-        elf = ELFFile(f)
+    with open(filename, 'rb') as file:
+        elf = ELFFile(file)
 
         # Import the CODE sections
         for name in code_section_names:
             code_section = elf.get_section_by_name(name)
             if code_section:
                 start_address = code_section['sh_addr']
-                end_address = start_address + code_section['sh_size']
+                #end_address = start_address + code_section['sh_size']
                 code_contents = code_section.data()
                 ida_bytes.patch_bytes(start_address, code_contents)
             else:
@@ -40,7 +40,7 @@ def import_elf(filename, code_section_names, data_section_names):
             data_section = elf.get_section_by_name(name)
             if data_section:
                 start_address = data_section['sh_addr']
-                end_address = start_address + data_section['sh_size']
+                #end_address = start_address + data_section['sh_size']
                 data_contents = data_section.data()
                 ida_bytes.patch_bytes(start_address, data_contents)
             else:
@@ -59,4 +59,4 @@ def import_elf(filename, code_section_names, data_section_names):
                     # TODO import data like functions etc
 
         else:
-            raise ValueError(f"Symbol table not found in ELF file")
+            raise ValueError("Symbol table not found in ELF file")

@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+from datetime import datetime
 
 # Import the required IDAPython modules
 import ida_idaapi
@@ -13,13 +14,11 @@ import ida_infineon_helper
 import ida_relabel
 import ida_find_function_calls
 
-from datetime import datetime
-
 
 def ecu_mod_recipe():
     # First we will try to get the dependancies from the mod code to compile
     # assumptions is that the idb is complete and labeled correctly
-    startTime = datetime.now()
+    starttime = datetime.now()
     print("====================ECU mode recipe demo====================")
 
     print(
@@ -92,7 +91,7 @@ def ecu_mod_recipe():
     # Always check to make sure you are patching correctly
     if (len(get_map_value_calls) != 1):
         raise ValueError(
-            f"Recipe is only setup for modify calcFuel with one call to get_map_value!"
+            "Recipe is only setup for modify calcFuel with one call to get_map_value!"
         )
 
     # Get the address of the function named "fuel_curve_overload" our function we are overloading
@@ -100,6 +99,6 @@ def ecu_mod_recipe():
     # Check if the function was not found
     if overload_func_ea == ida_idaapi.BADADDR:
         raise ValueError(
-            f"Recipe error! We could not find the function to patch to!")
+            "Recipe error! We could not find the function to patch to!")
     ida_infineon_helper.patch_call(get_map_value_calls[0], overload_func_ea)
-    print('======Done in ', (datetime.now() - startTime), 'seconds======')
+    print('======Done in ', (datetime.now() - starttime), 'seconds======')

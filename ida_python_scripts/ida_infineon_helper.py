@@ -1,4 +1,3 @@
-#import idaapi
 import ida_bytes
 import numpy as np
 
@@ -15,7 +14,7 @@ def disp24(op1, disp24):
 
 
 def call(current_ea, target_ea):
-    disp24_val = (target_ea - current_ea)
+    disp24_val = target_ea - current_ea
     disp24_val = (disp24_val >> 1) & 0xFFFFFF
     return disp24(0x6D, disp24_val)
 
