@@ -32,7 +32,7 @@ string(FIND ${CMAKE_C_COMPILER} "powerpc" powerpc_found)
 
 if(tricore_found GREATER 0)
     # Link the necessary libraries
-    target_link_libraries(mod_code.elf m -nocrt0 -nostartfiles -T${CMAKE_SOURCE_DIR}/tricore/tc21x_memory.ld -T${CMAKE_SOURCE_DIR}/tricore/tc21x_bsp_example.ld)
+    target_link_libraries(mod_code.elf m -nocrt0 -nostartfiles -T${CMAKE_SOURCE_DIR}/tricore/tc21x_memory.ld -T${CMAKE_SOURCE_DIR}/tricore/tc_mod_code.ld)
     message("tricore_found setting up with default linker")
 elseif(powerpc_found GREATER 0)
     # Link the necessary libraries
