@@ -17,7 +17,7 @@
  */
 
 float get_map_value(float x_input, float y_input,
-                    const map_xfloat_yfloat_zfloat_t * map) {
+                    const map_xfloat_yfloat_zfloat_t* map) {
   // Compute the x and y indices
   int x_index = 0, y_index = 0;
   while (x_index < map->x_size - 1 &&

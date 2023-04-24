@@ -1,6 +1,6 @@
 #include "fuelandspark.h"
 #include "version_config.h"
-const uint8_t version[]=BUILD_VERSION; 
+const uint8_t version[] = BUILD_VERSION;
 volatile float eng_rpm;
 volatile float map;
 volatile float coolant_temp;

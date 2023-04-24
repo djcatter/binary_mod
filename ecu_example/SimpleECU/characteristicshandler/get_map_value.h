@@ -23,6 +23,6 @@ typedef struct {
 } map_xfloat_yfloat_zfloat_t;
 
 float get_map_value(float x_input, float y_input,
-                    const map_xfloat_yfloat_zfloat_t * map);
+                    const map_xfloat_yfloat_zfloat_t* map);
 
 #endif  // GET_MAP_VALUE_H

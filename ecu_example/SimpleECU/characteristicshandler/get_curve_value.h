@@ -20,6 +20,6 @@ typedef struct {
 
 } curve_xfloatptr_yfloat_t;
 
-float get_curve_value(float x_input, const curve_xfloatptr_yfloat_t * curve);
+float get_curve_value(float x_input, const curve_xfloatptr_yfloat_t* curve);
 
 #endif  // GET_CURVE_VALUE_H

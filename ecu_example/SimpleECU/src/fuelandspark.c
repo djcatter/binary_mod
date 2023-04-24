@@ -33,32 +33,59 @@ const static floataxis_t coolant_axis = {4, coolant_axis_values};
 
 const static float fuel_map_z[] = {0.0, 0.0, 0.0, 0.0, 0.5, 1.0, 1.5, 2.0,
                                    1.0, 2.0, 3.0, 4.0, 1.5, 3.0, 4.5, 6.0};
-
+/**
+ * @brief Map structure for the main fuel
+ * 
+ */
 const static map_xfloat_yfloat_zfloat_t fuel_map = {.x_size = 4,
                                                     .y_size = 4,
                                                     .x_axis = &rpm_axis,
                                                     .y_axis = &map_axis,
                                                     .z_values = fuel_map_z};
-
+/**
+ * @brief Curve structure for spark coolant compensation
+ * 
+ */
 const static curve_xfloatptr_yfloat_t spark_colant_temp = {
     .x_size = 4, .x_axis = &coolant_axis, .y_values = spark_curve_y};
 
-// Get fuel curve and map values
+/**
+ * @brief Curve structure for fuel coolant compensation
+ * 
+ */
 const static curve_xfloatptr_yfloat_t fuel_coolant_temp = {
     .x_size = 4, .x_axis = &coolant_axis, .y_values = fuel_coolant_y_axis};
-
+/**
+ * @brief calcSpark an elementary function that calculates a fake spark
+ * based on a curve and a map.
+ * 
+ * @param eng_rpm float of engine rpm
+ * @param map float of map pressure
+ * @param coolant_temp float of coolant temp
+ * @return float 
+ */
 float calcSpark(float eng_rpm, float map, float coolant_temp) {
-  float spark_coolant_result = get_curve_value(coolant_temp, & spark_colant_temp);
+  float spark_coolant_result =
+      get_curve_value(coolant_temp, &spark_colant_temp);
 
-  float spark_map_result = get_map_value(eng_rpm, map, & ignition_map);
+  float spark_map_result = get_map_value(eng_rpm, map, &ignition_map);
 
   return spark_coolant_result + spark_map_result;
 }
 
+/**
+ * @brief calcFuel is a straightforward function that calculates a fake fuel
+ * based on a curve and a map.
+ * 
+ * @param eng_rpm float of engine rpm
+ * @param map float of map pressure
+ * @param coolant_temp float of coolant temp
+ * @return float 
+ */
 float calcFuel(float eng_rpm, float map, float coolant_temp) {
-  float fuel_coolant_result = get_curve_value(coolant_temp, & fuel_coolant_temp);
+  float fuel_coolant_result = get_curve_value(coolant_temp, &fuel_coolant_temp);
 
-  float fuel_map_result = get_map_value(eng_rpm, map, & fuel_map);
+  float fuel_map_result = get_map_value(eng_rpm, map, &fuel_map);
 
   return fuel_coolant_result + fuel_map_result;
 }
