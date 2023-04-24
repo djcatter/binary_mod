@@ -1,0 +1,10 @@
+.idea
+cmake-build-*
+build*
+original
+ideas.md
+test*
+src/disassembly_vars.h
+CMakeFiles
+.vscode
+package.json

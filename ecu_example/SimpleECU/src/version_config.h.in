@@ -1,0 +1,9 @@
+#ifndef VERSION_CONFIG_H
+#define VERSION_CONFIG_H
+
+// define your build version
+#define BUILD_VERSION "@BUILD_VERSION@"
+
+
+
+#endif // VERSION_CONFIG_H
