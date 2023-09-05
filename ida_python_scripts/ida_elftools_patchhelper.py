@@ -1,10 +1,12 @@
-from elftools.elf.elffile import ELFFile
+import binascii
 import ida_bytes
 import idc
 import idaapi
+import os
 
+from elftools.elf.elffile import ELFFile
 
-def remove_patch_helper(ea):
+def remove_patch_helper(ea, fpos, org_val, patch_val):
     ida_bytes.revert_byte(ea)
     idaapi.del_global_name(ea)
     idaapi.del_local_name(ea)
@@ -19,7 +21,7 @@ def remove_patch(start_ea, end_ea):
     ida_bytes.visit_patched_bytes(start_ea, end_ea, remove_patch_helper)
 
 
-def import_elf(filename, code_section_names, data_section_names):
+def import_elf(filename, code_section_names, data_section_names, ram_section_names = []):
     # Open the ELF file
     with open(filename, 'rb') as file:
         elf = ELFFile(file)
@@ -60,3 +62,53 @@ def import_elf(filename, code_section_names, data_section_names):
 
         else:
             raise ValueError("Symbol table not found in ELF file")
+        
+# Custom exceptions for better error handling
+class PatchedInstructionError(Exception):
+    pass
+
+class InstructionMismatchError(Exception):
+    pass
+
+
+def patch_w_check(ea, expected, new_ins):
+    # Get the size of the instruction at ea
+    insn = idaapi.insn_t()
+    ins_size = idaapi.decode_insn(insn,ea)
+    if ins_size == 0:
+        raise ValueError(f"No instruction found at address {hex(ea)}")
+
+    # Check the length of the expected instruction
+    if len(expected) != ins_size:
+        raise ValueError("Length of expected instruction doesn't match instruction size")
+
+    # Check the length of the new instruction
+    if len(new_ins) != ins_size:
+        raise ValueError("Length of new instruction doesn't match instruction size")
+
+    # Load the data at ea based on the instruction length
+    data = idaapi.get_bytes(ea, ins_size)
+
+    # Check if the loaded data matches the expected instruction
+    if data == expected:
+        # Patch the instruction with the new instruction
+        ida_bytes.patch_bytes(ea, new_ins)
+        return True
+    else:
+        raise InstructionMismatchError(f"Existing instruction at address {hex(ea)} does not match\n Found {binascii.hexlify(data)} expected {binascii.hexlify(expected)}")
+
+
+
+def export_sections_to_file(sections, output_filename):
+    with open(output_filename, "wb") as output_file:
+        for section in sections:
+            address = section["address"]
+            length = section["length"]
+
+            # Read the data from the section
+            data = idc.get_bytes(address, length)
+
+            # Write the data to the output file
+            output_file.write(data)
+
+    print(f"Binary data from sections exported to {output_filename}")
