@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+
+name="binarymod"
+description="This is a collection of tools to allow machine code to be modified with C."
+license= {text = "GNU Affero GPL version 3 license"}
+readme = "README.md"
+dynamic = ["version"]
+authors = [
+    {name = "Derek Catterfeld", email = "derek@ducengineering.com"},
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+]
+
+requires-python = ">=3.7"
+
+dependencies =[
+    "pyelftools",
+]
+
+# All packages and sub-packages must be listed here
+[tool.setuptools]
+packages=[
+  "binarymod", 
+  ]
+
